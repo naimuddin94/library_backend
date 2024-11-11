@@ -29,6 +29,10 @@ const fetchMemberFromDB = async (memberId: string) => {
 };
 
 const updateMemberIntoDB = async (memberId: string, data: Partial<Member>) => {
+  await prisma.member.findUniqueOrThrow({
+    where: { memberId },
+  });
+
   return await prisma.member.update({
     where: { memberId },
     data,
@@ -36,6 +40,10 @@ const updateMemberIntoDB = async (memberId: string, data: Partial<Member>) => {
 };
 
 const deleteMemberFromDB = async (memberId: string) => {
+  await prisma.member.findUniqueOrThrow({
+    where: { memberId },
+  });
+
   await prisma.member.delete({
     where: { memberId },
   });
