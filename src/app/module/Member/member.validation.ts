@@ -14,10 +14,19 @@ const create = z.object({
       message: "Phone should be string",
       required_error: "Phone is required",
     }),
-    membershipDate: z.date({
-      message: "Membership date should be date format",
-      required_error: "Membership date is required",
-    }),
+    membershipDate: z.preprocess(
+      (arg: unknown) => {
+        if (typeof arg === "string") {
+          return new Date(arg);
+        }
+
+        return arg;
+      },
+      z.date({
+        message: "Membership date should be date format",
+        required_error: "Membership date is required",
+      })
+    ),
   }),
 });
 
