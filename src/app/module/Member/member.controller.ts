@@ -45,9 +45,22 @@ const updateMember = catchAsync(async (req, res) => {
     );
 });
 
+const deleteMember = catchAsync(async (req, res) => {
+  const { memberId } = req.params;
+
+  const result = await MemberService.deleteMemberFromDB(memberId);
+
+  res
+    .status(httpStatus.OK)
+    .json(
+      new AppResponse(httpStatus.OK, result, "Member successfully deleted")
+    );
+});
+
 export const MemberController = {
   createMember,
   getAllMembers,
   getMember,
   updateMember,
+  deleteMember,
 };

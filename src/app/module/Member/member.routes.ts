@@ -16,6 +16,7 @@ router
 router
   .route("/:memberId")
   .get(MemberController.getMember)
-  .put(validateRequest(MemberValidation.update), MemberController.updateMember);
+  .put(validateRequest(MemberValidation.update), MemberController.updateMember)
+  .delete(MemberController.deleteMember);
 
 export const MemberRoutes = router;
