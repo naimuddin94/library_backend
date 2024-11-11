@@ -30,8 +30,8 @@ model Book{
   title String
   genre String
   publishedYear Int
-  totalCoppies Int
-  availableCoppies Int
+  totalCopies Int
+  availableCopies Int
 
   brrowRecord BrrowRecord[]
   @@map("books")
