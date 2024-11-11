@@ -18,6 +18,11 @@ const saveMemberIntoDB = async (payload: Member) => {
   });
 };
 
+const fetchAllMembersFromDB = async () => {
+  return await prisma.member.findMany();
+};
+
 export const MemberService = {
   saveMemberIntoDB,
+  fetchAllMembersFromDB,
 };

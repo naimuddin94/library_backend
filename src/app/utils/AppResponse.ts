@@ -1,4 +1,3 @@
-
 class AppResponse {
   public success: boolean;
   constructor(
@@ -7,13 +6,13 @@ class AppResponse {
     public message: string,
     public meta?: any
   ) {
-    this.status = status;
     this.success = status < 400;
-    this.data = data;
+    this.status = status;
     this.message = message;
     if (meta) {
       this.meta = meta;
     }
+    this.data = data;
   }
 }
 

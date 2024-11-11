@@ -7,6 +7,7 @@ const router = express.Router();
 
 router
   .route("/")
+  .get(MemberController.getAllMembers)
   .post(
     validateRequest(MemberValidation.create),
     MemberController.createMember
