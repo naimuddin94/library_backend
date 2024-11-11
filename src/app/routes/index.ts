@@ -1,5 +1,6 @@
 import express from "express";
 import { BookRoutes } from "../module/Book/book.routes";
+import { BorrowRoutes } from "../module/Borrow/borrow.routes";
 import { MemberRoutes } from "../module/Member/member.routes";
 import { IRoutes } from "../types";
 
@@ -13,6 +14,10 @@ const moduleRoutes: IRoutes[] = [
   {
     path: "/books",
     route: BookRoutes,
+  },
+  {
+    path: "/",
+    route: BorrowRoutes,
   },
 ];
 

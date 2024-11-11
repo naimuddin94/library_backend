@@ -23,7 +23,7 @@ const fetchAllMembersFromDB = async () => {
 };
 
 const fetchMemberFromDB = async (memberId: string) => {
-  return await prisma.member.findUnique({
+  return await prisma.member.findUniqueOrThrow({
     where: { memberId },
   });
 };

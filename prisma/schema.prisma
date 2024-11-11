@@ -21,7 +21,7 @@ model Member{
   membershipDate DateTime
   createdAt DateTime @default(now())
 
-  brrowRecord BrrowRecord[]
+  brrowRecord BorrowRecord[]
   @@map("members")
 }
 
@@ -33,13 +33,13 @@ model Book{
   totalCopies Int
   availableCopies Int
 
-  brrowRecord BrrowRecord[]
+  brrowRecord BorrowRecord[]
   @@map("books")
 }
 
-model BrrowRecord{
-  brrowId String @id @default(uuid())
-  brrowDate DateTime @default(now())
+model BorrowRecord{
+  borrowId String @id @default(uuid())
+  borrowDate DateTime @default(now())
   returnDate DateTime?
   bookId String
   memberId String
@@ -47,5 +47,5 @@ model BrrowRecord{
 
   book Book @relation(fields: [bookId], references: [bookId])
   member Member @relation(fields: [memberId], references: [memberId])
-  @@map("brrowrecords")
+  @@map("borrowrecords")
 }
