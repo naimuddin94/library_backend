@@ -22,7 +22,19 @@ const getAllMembers = catchAsync(async (req, res) => {
     );
 });
 
+const getMember = catchAsync(async (req, res) => {
+  const { memberId } = req.params;
+  const result = await MemberService.fetchMemberFromDB(memberId);
+
+  res
+    .status(httpStatus.OK)
+    .json(
+      new AppResponse(httpStatus.OK, result, "Member retrieved successfully")
+    );
+});
+
 export const MemberController = {
   createMember,
   getAllMembers,
+  getMember,
 };

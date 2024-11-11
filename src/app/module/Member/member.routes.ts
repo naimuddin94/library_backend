@@ -13,4 +13,6 @@ router
     MemberController.createMember
   );
 
+router.route("/:memberId").get(MemberController.getMember);
+
 export const MemberRoutes = router;

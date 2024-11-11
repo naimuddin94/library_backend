@@ -22,7 +22,14 @@ const fetchAllMembersFromDB = async () => {
   return await prisma.member.findMany();
 };
 
+const fetchMemberFromDB = async (memberId: string) => {
+  return await prisma.member.findUnique({
+    where: { memberId },
+  });
+};
+
 export const MemberService = {
   saveMemberIntoDB,
   fetchAllMembersFromDB,
+  fetchMemberFromDB,
 };
