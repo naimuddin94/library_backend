@@ -6,7 +6,9 @@
   "author": "MD NAIM UDDIN",
   "license": "MIT",
   "scripts": {
-    "dev": "tsnd --respawn src/server.ts"
+    "start": "node ./dist/server.js",
+    "dev": "tsnd --respawn src/server.ts",
+    "build": "tsc"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
