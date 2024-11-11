@@ -13,6 +13,9 @@ router
     MemberController.createMember
   );
 
-router.route("/:memberId").get(MemberController.getMember);
+router
+  .route("/:memberId")
+  .get(MemberController.getMember)
+  .put(validateRequest(MemberValidation.update), MemberController.updateMember);
 
 export const MemberRoutes = router;

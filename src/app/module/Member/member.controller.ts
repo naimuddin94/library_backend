@@ -33,8 +33,21 @@ const getMember = catchAsync(async (req, res) => {
     );
 });
 
+const updateMember = catchAsync(async (req, res) => {
+  const { memberId } = req.params;
+  const updateData = req.body;
+  const result = await MemberService.updateMemberIntoDB(memberId, updateData);
+
+  res
+    .status(httpStatus.OK)
+    .json(
+      new AppResponse(httpStatus.OK, result, "Member updated successfully")
+    );
+});
+
 export const MemberController = {
   createMember,
   getAllMembers,
   getMember,
+  updateMember,
 };

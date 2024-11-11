@@ -28,8 +28,16 @@ const fetchMemberFromDB = async (memberId: string) => {
   });
 };
 
+const updateMemberIntoDB = async (memberId: string, data: Partial<Member>) => {
+  return await prisma.member.update({
+    where: { memberId },
+    data,
+  });
+};
+
 export const MemberService = {
   saveMemberIntoDB,
   fetchAllMembersFromDB,
   fetchMemberFromDB,
+  updateMemberIntoDB,
 };
