@@ -92,7 +92,7 @@ Contains the business logic and interacts with the data layer.
 
 The API documentation is available through Postman. It provides detailed information on the available endpoints, request formats, and response structures.
 
-[![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)](https://documenter.getpostman.com/view/34122341/2sA3kRJ3gC)
+[![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)](https://documenter.getpostman.com/view/34122341/2sAY545y4Q)
 
 ## Database Diagram
 

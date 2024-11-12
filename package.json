@@ -6,9 +6,10 @@
   "author": "MD NAIM UDDIN",
   "license": "MIT",
   "scripts": {
-    "start": "node ./dist/server.js",
+    "start": "node dist/server.js",
     "dev": "tsnd --respawn src/server.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "postinstall": "prisma generate"
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
