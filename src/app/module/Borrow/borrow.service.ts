@@ -1,18 +1,43 @@
-import { prisma } from "../../utils";
+import httpStatus from "http-status";
+import { AppError, prisma } from "../../utils";
 import { ICreatePayload } from "./borrow.interface";
 
 const saveBorrowIntoDB = async (payload: ICreatePayload) => {
-  await prisma.book.findUniqueOrThrow({
+  const book = await prisma.book.findUniqueOrThrow({
     where: { bookId: payload.bookId },
   });
+
+  if (book.availableCopies < 1) {
+    throw new AppError(
+      httpStatus.BAD_REQUEST,
+      "Currently, there are no available copies of this book"
+    );
+  }
 
   await prisma.member.findUniqueOrThrow({
     where: { memberId: payload.memberId },
   });
 
-  return await prisma.borrowRecord.create({
-    data: payload,
+  const result = await prisma.$transaction(async (tx) => {
+    await tx.book.update({
+      where: {
+        bookId: payload.bookId,
+      },
+      data: {
+        availableCopies: {
+          decrement: 1,
+        },
+      },
+    });
+
+    const borrowRecord = await tx.borrowRecord.create({
+      data: payload,
+    });
+
+    return borrowRecord;
   });
+
+  return result;
 };
 
 const fetchAllBorrowRecords = async () => {
@@ -40,15 +65,28 @@ const fetchBorrowRecordFromDB = async (borrowId: string) => {
 };
 
 const returnBookIntoDB = async (borrowId: string) => {
-  await prisma.borrowRecord.findUniqueOrThrow({
+  const borrowRecord = await prisma.borrowRecord.findUniqueOrThrow({
     where: { borrowId },
   });
 
-  await prisma.borrowRecord.update({
-    where: { borrowId },
-    data: {
-      returnDate: new Date(),
-    },
+  await prisma.$transaction(async (tx) => {
+    await tx.borrowRecord.update({
+      where: { borrowId },
+      data: {
+        returnDate: new Date(),
+      },
+    });
+
+    await tx.book.update({
+      where: {
+        bookId: borrowRecord.bookId,
+      },
+      data: {
+        availableCopies: {
+          increment: 1,
+        },
+      },
+    });
   });
 
   return null;

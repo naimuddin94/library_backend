@@ -25,7 +25,9 @@ const create = z.object({
   }),
 });
 
-const update = create.partial();
+const update = z.object({
+  body: create.shape.body.partial(),
+});
 
 export const BookValidation = {
   create,

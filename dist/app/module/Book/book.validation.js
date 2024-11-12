@@ -26,7 +26,9 @@ const create = zod_1.z.object({
         }),
     }),
 });
-const update = create.partial();
+const update = zod_1.z.object({
+    body: create.shape.body.partial(),
+});
 exports.BookValidation = {
     create,
     update,

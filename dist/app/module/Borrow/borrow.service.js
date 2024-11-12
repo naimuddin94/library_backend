@@ -8,19 +8,40 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BorrowRecordService = void 0;
+const http_status_1 = __importDefault(require("http-status"));
 const utils_1 = require("../../utils");
 const saveBorrowIntoDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
-    yield utils_1.prisma.book.findUniqueOrThrow({
+    const book = yield utils_1.prisma.book.findUniqueOrThrow({
         where: { bookId: payload.bookId },
     });
+    if (book.availableCopies < 1) {
+        throw new utils_1.AppError(http_status_1.default.BAD_REQUEST, "Currently, there are no available copies of this book");
+    }
     yield utils_1.prisma.member.findUniqueOrThrow({
         where: { memberId: payload.memberId },
     });
-    return yield utils_1.prisma.borrowRecord.create({
-        data: payload,
-    });
+    const result = yield utils_1.prisma.$transaction((tx) => __awaiter(void 0, void 0, void 0, function* () {
+        yield tx.book.update({
+            where: {
+                bookId: payload.bookId,
+            },
+            data: {
+                availableCopies: {
+                    decrement: 1,
+                },
+            },
+        });
+        const borrowRecord = yield tx.borrowRecord.create({
+            data: payload,
+        });
+        return borrowRecord;
+    }));
+    return result;
 });
 const fetchAllBorrowRecords = () => __awaiter(void 0, void 0, void 0, function* () {
     return yield utils_1.prisma.borrowRecord.findMany({
@@ -45,15 +66,27 @@ const fetchBorrowRecordFromDB = (borrowId) => __awaiter(void 0, void 0, void 0, 
     });
 });
 const returnBookIntoDB = (borrowId) => __awaiter(void 0, void 0, void 0, function* () {
-    yield utils_1.prisma.borrowRecord.findUniqueOrThrow({
+    const borrowRecord = yield utils_1.prisma.borrowRecord.findUniqueOrThrow({
         where: { borrowId },
     });
-    yield utils_1.prisma.borrowRecord.update({
-        where: { borrowId },
-        data: {
-            returnDate: new Date(),
-        },
-    });
+    yield utils_1.prisma.$transaction((tx) => __awaiter(void 0, void 0, void 0, function* () {
+        yield tx.borrowRecord.update({
+            where: { borrowId },
+            data: {
+                returnDate: new Date(),
+            },
+        });
+        yield tx.book.update({
+            where: {
+                bookId: borrowRecord.bookId,
+            },
+            data: {
+                availableCopies: {
+                    increment: 1,
+                },
+            },
+        });
+    }));
     return null;
 });
 const fetchOverdueBorrowRecords = () => __awaiter(void 0, void 0, void 0, function* () {
