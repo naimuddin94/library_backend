@@ -1,24 +1,28 @@
 # Library Management System API
 
-## Objective
-Develop a backend API for a Library Management System that allows library staff and members to manage books, memberships, and borrowing activities. The API supports CRUD operations for books, members, and borrow records, along with additional endpoints for borrowing and returning books.
+## Overview
+
+The Library Management System Backend API is designed to help library staff and members manage books, memberships, and borrowing activities. It supports essential operations like adding and removing books, registering members, and tracking borrow and return activities. This backend API forms the foundation for a full-featured library management system, automating key processes to improve operational efficiency and inventory accuracy.
 
 ## Technologies
+
 - Express.js
 - Prisma ORM
 - PostgreSQL
 - TypeScript
 
-## Database Schema
-Each table uses UUID as the primary key.
+## Key Features & Functionality
 
-[![Live Link](https://img.shields.io/badge/API-Live-brightgreen?style=for-the-badge)](https://mechanical-keyboard-shop-server-two.vercel.app/)
-
+- **Books Management**: Add, update, view, and delete books in the library.
+- **Member Management**: Register, update, and delete library members.
+- **Borrowing and Returning**: Track book borrowing and returning, updating inventory accordingly.
+- **Detailed Records**: Maintain records of borrowing activities, including the borrowed date and return status.
+- **Error Handling**: Comprehensive error handling for all CRUD operations.
 
 ## Project Structure - MVC Pattern
 
 ```
-Mechanical Keyboard Shop
+Library Management System
 ├── src
 │   ├── app
 │   │   ├── modules
@@ -33,15 +37,19 @@ Mechanical Keyboard Shop
 ```
 
 ### Controllers
+
 Handles incoming requests and interacts with the service layer.
 
 ### Models
+
 Defines the data schema and structure using Mongoose.
 
 ### Routes
+
 Defines the application endpoints and associates them with controllers.
 
 ### Services
+
 Contains the business logic and interacts with the data layer.
 
 ## Getting Started
@@ -49,8 +57,8 @@ Contains the business logic and interacts with the data layer.
 ### Prerequisites
 
 - Node.js
-- npm
-- MongoDB
+- yarn
+- Postgres
 
 ### Installation
 
@@ -91,6 +99,8 @@ Contains the business logic and interacts with the data layer.
 ## API Documentation
 
 The API documentation is available through Postman. It provides detailed information on the available endpoints, request formats, and response structures.
+
+[![Live Link](https://img.shields.io/badge/API-Live-brightgreen?style=for-the-badge)](https://library-backend-sigma.vercel.app/)
 
 [![Postman](https://img.shields.io/badge/Postman-FF6C37?style=for-the-badge&logo=postman&logoColor=white)](https://documenter.getpostman.com/view/34122341/2sAY545y4Q)
 
